@@ -16,7 +16,7 @@ jobs:
           - run: chmod 600 secret_key
           - run: ssh -o StrictHostKeyChecking=no isucon@3.112.93.187 -i secret_key '
           cd /home/isucon/isubata
-          git pull origin master
+          git pull origin ex
           sh deploy.sh
           '
 
