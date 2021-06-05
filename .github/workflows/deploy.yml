@@ -8,6 +8,8 @@ jobs:
     build:
         name: To7_2
         runs-on: ubuntu-20.04
+        steps:
+          - name: test
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           run:
