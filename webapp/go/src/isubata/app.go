@@ -25,7 +25,6 @@ import (
 	"github.com/labstack/echo/middleware"
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 	echo_trace "gopkg.in/DataDog/dd-trace-go.v1/contrib/labstack/echo"
-	sqlxtrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/jmoiron/sqlx"
 )
 
 const (
@@ -71,7 +70,7 @@ func init() {
 		db_user, db_password, db_host, db_port)
 
 	log.Printf("Connecting to db: %q", dsn)
-	db, _ = sqlxtrace.Open("mysql", dsn)
+	db, _ = sqlx.Connect("mysql", dsn)
 	for {
 		err := db.Ping()
 		if err == nil {
