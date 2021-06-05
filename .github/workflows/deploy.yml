@@ -9,7 +9,7 @@ jobs:
         name: To7_20
         runs-on: ubuntu-20.04
         env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SECRET_KEY: ${{ secrets.ISUCON7PEM }}
         steps:
           - run: echo ${{ steps.ip.outputs.ipv4 }}
           - run: echo "$SECRET_KEY" > secret_key
