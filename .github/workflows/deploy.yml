@@ -6,7 +6,7 @@ on:
       - ex
 jobs:
     build:
-        name: To7_2
+        name: To7_20
         runs-on: ubuntu-20.04
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
