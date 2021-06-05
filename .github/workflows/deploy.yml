@@ -1,0 +1,19 @@
+name: DeployToIsucon7EC2
+on:
+  push:
+    branches:
+      - master
+      - ex
+jobs:
+    build:
+        name: To7_2
+        runs-on: ubuntu-20.04
+        steps:
+          - run:
+              echo "{{ secrets.ISUCON7PEM }}" > secret_key
+              chmod 600 secret_key
+              ssh isucon@3.112.93.187 -i secret_key
+              cd isubata
+              git pull origin ex
+              sudo systemctl restart isubata.golang.service
+
