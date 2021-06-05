@@ -14,7 +14,7 @@ jobs:
           - run: echo ${{ steps.ip.outputs.ipv4 }}
           - run: echo "$SECRET_KEY" > secret_key
           - run: chmod 600 secret_key
-          - run: ssh isucon@3.112.93.187 -i secret_key
+          - run: ssh -o StrictHostKeyChecking=no isucon@3.112.93.187 -i secret_key
           - run: cd isubata
           - run: git pull origin ex
           - run: sudo systemctl restart isubata.golang.service
