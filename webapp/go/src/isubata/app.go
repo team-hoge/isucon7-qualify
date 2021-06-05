@@ -71,7 +71,7 @@ func init() {
 		db_user, db_password, db_host, db_port)
 
 	log.Printf("Connecting to db: %q", dsn)
-	db, _ = sqlxtrace.Connect("mysql", dsn)
+	db, _ = sqlxtrace.Open("mysql", dsn)
 	for {
 		err := db.Ping()
 		if err == nil {
