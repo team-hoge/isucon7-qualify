@@ -23,6 +23,9 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/middleware"
+	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
+	echo_trace "gopkg.in/DataDog/dd-trace-go.v1/contrib/labstack/echo"
+	sqlxtrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/jmoiron/sqlx"
 )
 
 const (
@@ -68,7 +71,7 @@ func init() {
 		db_user, db_password, db_host, db_port)
 
 	log.Printf("Connecting to db: %q", dsn)
-	db, _ = sqlx.Connect("mysql", dsn)
+	db, _ = sqlxtrace.Connect("mysql", dsn)
 	for {
 		err := db.Ping()
 		if err == nil {
@@ -722,6 +725,8 @@ func tRange(a, b int64) []int64 {
 
 func main() {
 	e := echo.New()
+	tracer.Start()
+	defer tracer.Stop()
 	funcs := template.FuncMap{
 		"add":    tAdd,
 		"xrange": tRange,
@@ -734,6 +739,7 @@ func main() {
 		Format: "request:\"${method} ${uri}\" status:${status} latency:${latency} (${latency_human}) bytes:${bytes_out}\n",
 	}))
 	e.Use(middleware.Static("../public"))
+	e.Use(echo_trace.Middleware(echo_trace.WithServiceName("api")))
 
 	e.GET("/initialize", getInitialize)
 	e.GET("/", getIndex)
